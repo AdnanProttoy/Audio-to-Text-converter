@@ -33,7 +33,7 @@ def transcribe_audio(audio_file):
         with open(chunk_path, "rb") as f:
             transcript = client.audio.transcriptions.create(
                 file=f,
-                model="gpt-4o-transcribe"
+                model="gpt-4o-transcribe"  # audio → text
             )
             full_text += transcript.text + " "
 
