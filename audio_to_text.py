@@ -5,6 +5,7 @@ from openai import OpenAI
 from pydub import AudioSegment
 from dotenv import load_dotenv
 
+# Load API key
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -42,3 +43,4 @@ def transcribe_audio(audio_file):
     os.remove(temp_audio_path)
 
     return full_text.strip()
+
