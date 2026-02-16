@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import tempfile
 import os
 
+# Load API key
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -17,12 +18,13 @@ audio_file = st.file_uploader(
 )
 
 def transcribe_audio(audio_file):
-    # save uploaded file
-    with tempfile.NamedTemporaryFile(delete=False) as tmp:
+    # IMPORTANT: keep original file extension
+    suffix = os.path.splitext(audio_file.name)[1]
+
+    with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
         tmp.write(audio_file.read())
         tmp_path = tmp.name
 
-    # Whisper transcription (STABLE)
     with open(tmp_path, "rb") as f:
         transcript = client.audio.transcriptions.create(
             file=f,
@@ -47,4 +49,3 @@ if st.button("Transcribe Audio"):
         )
     else:
         st.warning("Please upload an audio file!")
-
